@@ -88,20 +88,13 @@ export default {
       process.env.NODE_ENV === 'dev'
         ? '/extensions/enrollment-public'
         : '/extensions/enrollment-public',
-    routeNameSplitter: '/',
-    extendRoutes(routes, resolve) {
-      routes.push(
-        {
-          path: '*',
-          component: resolve(__dirname, 'pages/index'),
-          name: 'index'
-        },
-        {
-          path: '/About',
-          component: resolve(__dirname, 'pages/about'),
-          name: 'about'
-        }
-      )
-    }
+    routeNameSplitter: '/'
+    // extendRoutes(routes, resolve) {
+    //   routes.push({
+    //     path: '*',
+    //     component: resolve(__dirname, 'pages/index'),
+    //     name: 'index'
+    //   })
+    // }
   }
 }
