@@ -1,5 +1,9 @@
 import { resolve, join } from 'path'
 
+const isTesting = false;
+
+const appName = isTesting ? 'enrollment-public-test' : 'enrollment-public';
+
 export default {
   mode: 'spa',
   /*
@@ -25,7 +29,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~/node_modules/vue-tour/dist/vue-tour.css'],
   /*
    ** Plugins to load before mounting the App
    */
@@ -33,8 +37,9 @@ export default {
     '~/plugins/qdt.config.js',
     join(resolve(__dirname), '../sdp-vue-components/plugins/qlik.config'),
     '~/plugins/init.store.js',
-    join(resolve(__dirname), '../sdp-vue-components/plugins/breakpoints'),
-    { src: '~/plugins/vue-unicons.js', mode: 'client' }
+    { src: '~/plugins/vue-unicons.js', mode: 'client' },
+    '~/plugins/vue-numeral-filter.js',
+    '~/plugins/vue-tour.js' // note remember, purgecss (whitelist v-tour, v-step)
   ],
   /*
    ** Nuxt.js dev-modules
@@ -48,7 +53,12 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ['vue-scrollto/nuxt'],
+  modules: ['nuxt-webfontloader', 'vue-scrollto/nuxt'],
+  webfontloader: {
+    google: {
+      families: ['Roboto:wght@700']
+    }
+  },
   /**
    * purgeCss:
    * note that the following paths simply add to the default
@@ -60,6 +70,7 @@ export default {
       '../sdp-vue-components/pages/**/*.vue',
       '../sdp-vue-components/plugins/**/*.js'
     ],
+    whitelistPatterns: [/v-tour/, /v-step/],
     rejected: true
   },
   /*
@@ -86,15 +97,8 @@ export default {
     mode: 'hash',
     base:
       process.env.NODE_ENV === 'dev'
-        ? '/extensions/enrollment-public'
-        : '/extensions/enrollment-public',
+        ? `/extensions/${appName}`
+        : `/extensions/${appName}`,
     routeNameSplitter: '/'
-    // extendRoutes(routes, resolve) {
-    //   routes.push({
-    //     path: '*',
-    //     component: resolve(__dirname, 'pages/index'),
-    //     name: 'index'
-    //   })
-    // }
   }
 }

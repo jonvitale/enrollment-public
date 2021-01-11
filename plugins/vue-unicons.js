@@ -20,7 +20,15 @@ import {
   uniAngleDown,
   uniAngleUp,
   uniPlay,
-  uniSearch
+  uniSearch,
+  uniSearchMinus,
+  uniSearchPlus,
+  uniUser,
+  uniMars,
+  uniVenus,
+  uniBuilding,
+  uniGrid,
+  uniChart
 } from 'vue-unicons/src/icons'
 
 Unicon.add([
@@ -43,7 +51,15 @@ Unicon.add([
   uniAngleDown,
   uniAngleUp,
   uniPlay,
-  uniSearch
+  uniSearch,
+  uniSearchMinus,
+  uniSearchPlus,
+  uniUser,
+  uniMars,
+  uniVenus,
+  uniBuilding,
+  uniGrid,
+  uniChart
 ])
 
 Vue.use(Unicon)

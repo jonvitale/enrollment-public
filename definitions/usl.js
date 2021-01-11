@@ -12,6 +12,21 @@ export default {
       },
       {
         qDef: {
+          qFieldDefs: ['Publication Name'],
+          qFieldLabels: ['publicationName'],
+          qSortCriterias: [{ qSortByLoadOrder: 0, qSortByAscii: 1 }]
+        },
+        qNullSuppression: false
+      },
+      {
+        qDef: {
+          qFieldDefs: ['School URL Slug'],
+          qFieldLabels: ['slug']
+        },
+        qNullSuppression: false
+      },
+      {
+        qDef: {
           qFieldDefs: ['SRC School ID'],
           qFieldLabels: ['srcschoolid']
         },
@@ -26,14 +41,7 @@ export default {
       },
       {
         qDef: {
-          qFieldDefs: ['Street Address'],
-          qFieldLabels: ['address']
-        },
-        qNullSuppression: false
-      },
-      {
-        qDef: {
-          qFieldDefs: ['Zip Code'],
+          qFieldDefs: ['ZIP Code'],
           qFieldLabels: ['zipCode']
         },
         qNullSuppression: false
@@ -59,14 +67,6 @@ export default {
           qDef:
             "Count(distinct {<[School Year] = {'$(vSchoolYear_Current)'}>} 1)",
           qLabel: 'Flag_CY'
-        }
-      },
-
-      {
-        qDef: {
-          qDef:
-            "Replace(Only(distinct{<[School Year] = {'$(vSchoolYear_Current)'}>} [School Name Abbreviate]), ' ', '_')",
-          qLabel: 'slug'
         }
       }
     ],

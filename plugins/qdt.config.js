@@ -1,12 +1,14 @@
 import QdtComponents from 'qdt-components'
 
+const host = 'dashboards.philasd.org' // window.location.hostname
+
 const config = {
-  host: window.location.hostname,
+  host,
   prefix: '',
-  port: window.location.hostname === 'localhost' ? 4848 : window.location.port,
-  secure: window.location.protocol === 'https:',
+  port: host === 'localhost' ? 4848 : 443, // window.location.port,
+  secure: host === 'localhost' ? window.location.protocol === 'https:' : true,
   appId:
-    window.location.hostname === 'localhost'
+    host === 'localhost'
       ? 'Enrollment - Oct 1 Snapshot'
       : '5bb27291-9904-47d7-a77c-c872126880c8'
 }

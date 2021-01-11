@@ -13,7 +13,6 @@ export const getters = {
 
 export const mutations = {
   initialized(state, val) {
-    console.log('school initialized', this)
     state.initialized = val
   },
   add(state, data) {
@@ -29,7 +28,8 @@ export const mutations = {
 
 export const actions = {
   set_schools({ commit }, values) {
-    // console.log('set_schools', values)
+    // const schools = values.school.map((s) => s.text)
+    // const slugs = values.slug.map((s) => s.text)
     commit('replace', values)
     commit('initialized', true)
   },

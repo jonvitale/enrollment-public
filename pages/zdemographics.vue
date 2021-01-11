@@ -9,17 +9,21 @@
     />
     <Square
       ref="v-ethnicity"
-      name="Demographics"
+      :name="demoTypeMap[demoType]"
       class="w-full mb-4"
       color="tint"
       tight
     >
+      <Heading size="medium">
+        % of Students by {{ demoTypeMap[demoType] }}
+      </Heading>
       <div class="py-2 w-full flex flex-row justify-between">
         <ButtonGroup
           :options="demoTypeMap"
           :selected-value="demoType"
           vertical
-          class="my-1 mx-2"
+          class="mx-2"
+          style="min-width:10rem"
           @buttonClicked="handleDemoTypeSelection($event.value, $event.label)"
         />
         <QdtComponent
@@ -96,7 +100,7 @@
     <Square
       ref="v-sped"
       name="Special Ed"
-      class="flex flex-wrap lg:flex-no-wrap mb-4"
+      class="flex flex-col items-center mb-4"
       color="tint"
       tight
     >
@@ -112,7 +116,7 @@
         primary-size="small"
       />
       <QdtComponent
-        class="flex-auto m-2 p-2 bg-white"
+        class="w-full m-2 p-2 bg-white"
         type="QdtViz"
         :props="chartEnrollmentSPED"
       />
@@ -149,7 +153,7 @@
           <div class="flex flex-wrap px-4 py-1 items-center">
             <div v-if="metricType === 'Ethnicity'" class="flex flex-wrap my-1">
               <div class="h-full mr-2">
-                School color key (by {{ backgroundMetricTypeMap[metricType] }}):
+                School color key (by {{ metricType }}):
               </div>
               <div
                 class="mx-1 px-2 my-1"
@@ -196,7 +200,7 @@
             </div>
             <div v-else class="flex flex-wrap items-center">
               <div class="h-full mr-2">
-                School color key (by {{ backgroundMetricTypeMap[metricType] }}):
+                School color key (by {{ metricType }}):
               </div>
               <div
                 class="mx-1 px-2 my-1"
@@ -281,7 +285,7 @@ export default {
   data() {
     return {
       schoolsInitialized: this.$store.state.schools.initialized,
-      demoType: 'Ethnicity',
+      demoType: 'ethnicity',
       areaType: 'ZipCode',
       metricType: 'Ethnicity',
       tableType: 'School',
@@ -306,10 +310,10 @@ export default {
   computed: {
     demoTypeMap() {
       return {
-        Ethnicity: 'Ethnicity',
-        Gender: 'Gender',
-        Grade: 'Grade',
-        Age: 'Age'
+        ethnicity: 'Race/Ethnicity',
+        gender: 'Gender',
+        grade: 'Grade',
+        age: 'Age'
       }
     },
     backgroundAreaTypeMap() {
@@ -325,7 +329,7 @@ export default {
         Ethnicity: 'Ethnicity',
         EL: 'English Learners',
         'Economically Disadvantaged': 'Economically Disadvantaged',
-        SPED: 'Has IEP'
+        SPED: 'Special Education'
       }
     },
     tableTypeMap() {
@@ -334,17 +338,32 @@ export default {
       return tmap
     },
     chartEnrollmentDemographics() {
-      return {
-        id:
-          this.demoType === 'Ethnicity'
-            ? 'f823a659-1865-4769-950d-b6431b2af57a'
-            : this.demoType === 'Gender'
-            ? 'jZjkrpy'
-            : this.demoType === 'Age'
-            ? 'CyUxyD'
-            : 'WaQBFa',
-        type: 'barchart',
-        height: '400px'
+      if (this.demoType === 'ethnicity') {
+        return {
+          id: 'f823a659-1865-4769-950d-b6431b2af57a',
+          type: 'barchart',
+          height: '300px'
+        }
+      } else if (this.demoType === 'gender') {
+        return {
+          id: 'jZjkrpy',
+          type: 'barchart',
+          height: '300px'
+        }
+      } else if (this.demoType === 'age') {
+        return {
+          id: 'CyUxyD',
+          type: 'barchart',
+          height: '300px'
+        }
+      } else if (this.demoType === 'grade') {
+        return {
+          id: 'WaQBFa',
+          type: 'barchart',
+          height: '300px'
+        }
+      } else {
+        return null
       }
     },
     chartEnrollmentEL() {
@@ -366,10 +385,10 @@ export default {
         qId: 'zxJhdS',
         description: `
           The percentage of students identified as economically disadvantaged, 
-          multiplied by a USDA-defined CEP factor of 1.6, and capped at 100%. 
+          multiplied by a USDA-defined factor of 1.6, and capped at 100%. 
           Does not include charter school students.
           `,
-        title: 'Economically Disadvantaged (CEP Rate)',
+        title: '',
         subtitle: ' ',
         secondaryLabel: 'From  ' + this.$store.getters.sy_p,
         color: 'light'
@@ -379,7 +398,7 @@ export default {
       return {
         qId: 'rfNPaKa',
         description: `The percentage of students identified as English Learners based upon performance on the ACCESS exam.`,
-        title: 'English Learners (EL)',
+        title: 'English Learners',
         subtitle: ' ',
         secondaryLabel: 'From  ' + this.$store.getters.sy_p,
         color: 'light'
@@ -388,8 +407,8 @@ export default {
     kpiEnrollmentSPED() {
       return {
         qId: 'fqFM',
-        description: `The percentage of students with Individualized Education Programs (IEP) (for a reason other than "Gifted without Disability").`,
-        title: 'Students with IEP',
+        description: `The percentage of students with an Individualized Education Program (for a disibility other than "mentally gifted").`,
+        title: '',
         subtitle: ' ',
         secondaryLabel: 'From  ' + this.$store.getters.sy_p,
         color: 'light'
@@ -397,7 +416,7 @@ export default {
     },
     map() {
       return {
-        id: 'a8f085b9-5cd1-46ab-8aaf-e434b175a10d',
+        id: 'e56b219d-9cf7-46ab-b881-ffd844aa8251',
         type: 'map',
         height: '600px'
       }
@@ -472,28 +491,28 @@ export default {
     },
 
     uniconoGramValuesDemo() {
-      if (this.demoType === 'Ethnicity') {
+      if (this.demoType === 'ethnicity') {
         return this.ethnicityValues.ethnicity.map(({ text: label }, index) => ({
           count: this.ethnicityValues.countEnrollment[index]?.number || 0,
           icon: 'person',
           color: ethnicityColorMap[label],
           label
         }))
-      } else if (this.demoType === 'Gender') {
+      } else if (this.demoType === 'gender') {
         return this.genderValues.gender.map(({ text: label }, index) => ({
           count: this.genderValues.countEnrollment[index]?.number || 0,
           icon: 'person',
           color: genderColorMap[label],
           label
         }))
-      } else if (this.demoType === 'Grade') {
+      } else if (this.demoType === 'grade') {
         return this.gradeValues.grade.map(({ text: label }, index) => ({
           count: this.gradeValues.countEnrollment[index]?.number || 0,
           icon: 'person',
           color: '#3c52a1',
           label
         }))
-      } else if (this.demoType === 'Age') {
+      } else if (this.demoType === 'age') {
         return this.ageValues.age.map(({ text: label }, index) => ({
           count: this.ageValues.countEnrollment[index]?.number || 0,
           icon: 'person',
